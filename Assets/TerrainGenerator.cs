@@ -18,6 +18,7 @@ public class TerrainGenerator : MonoBehaviour
 
     [SerializeField] private int width;
     [SerializeField] private int height;
+    [SerializeField] private float perlinScale = 1f;
 
     [SerializeField] private float tileWidth;
 
@@ -28,6 +29,8 @@ public class TerrainGenerator : MonoBehaviour
     private float tileRadius;
 
     private Tile[][] map;
+
+    List<List<GameObject>> tiles = new List<List<GameObject>>();
 
     private void Awake()
     {
@@ -44,8 +47,36 @@ public class TerrainGenerator : MonoBehaviour
 
             for (int j = 0; j < width; j++)
             {
-                float widthRatio = (j * 1.0f) / width;
-                float heightRatio = (i*1.0f) / height;
+                float widthRatio = ((j * 1.0f) / width) * perlinScale;
+                float heightRatio = ((i * 1.0f) / height) * perlinScale;
+                mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * 5, i * tileRadius * 0.75f));
+            }
+
+            map[i] = mapPart;
+        }
+
+        for (int i = 0; i < height; i++)
+        {
+            tiles.Add(new List<GameObject>());
+            for (int j = 0; j < width; j++)
+            {
+                GameObject go = Instantiate(grassTile, map[i][j].position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+                tiles[i].Add(go);
+            }
+        }
+    }
+
+    void Update()
+    {
+        for (int i = 0; i < height; i++)
+        {
+            float offset = i % 2 == 1 ? tileWidth / 2 : 0;
+            Tile[] mapPart = new Tile[width];
+
+            for (int j = 0; j < width; j++)
+            {
+                float widthRatio = ((j * 1.0f) / width) * perlinScale;
+                float heightRatio = ((i * 1.0f) / height) * perlinScale;
                 mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * 5, i * tileRadius * 0.75f));
             }
 
@@ -56,7 +87,7 @@ public class TerrainGenerator : MonoBehaviour
         {
             for (int j = 0; j < width; j++)
             {
-                Instantiate(grassTile, map[i][j].position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+                tiles[i][j].transform.position = map[i][j].position;
             }
         }
     }
