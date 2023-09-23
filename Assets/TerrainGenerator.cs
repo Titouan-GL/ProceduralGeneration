@@ -44,7 +44,9 @@ public class TerrainGenerator : MonoBehaviour
 
             for (int j = 0; j < width; j++)
             {
-                mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, 0, i * tileRadius * 0.75f));
+                float widthRatio = (j * 1.0f) / width;
+                float heightRatio = (i*1.0f) / height;
+                mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * 5, i * tileRadius * 0.75f));
             }
 
             map[i] = mapPart;
