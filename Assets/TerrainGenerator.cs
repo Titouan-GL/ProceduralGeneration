@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,20 @@ public class TerrainGenerator : MonoBehaviour
         {
             type = newtype;
             position = newposition;
+        }
+    }
+
+    [Serializable]
+    public struct Threshold
+    {
+        public float height;
+        public string type;
+        public Material color;
+        public Threshold(string newtype, float newheight, Material newcolor)
+        {
+            type = newtype;
+            height = newheight;
+            color = newcolor;
         }
     }
 
@@ -32,6 +47,8 @@ public class TerrainGenerator : MonoBehaviour
 
     List<List<GameObject>> tiles = new List<List<GameObject>>();
 
+    public List<Threshold> thresholds;
+
     private void Awake()
     {
         tileRadius = tileWidth / Mathf.Cos(Mathf.Deg2Rad * 30); // a side is : "adjacent/cos(30)" and this times two gives the radius, and tileWidth/2 = adjacent
@@ -40,20 +57,7 @@ public class TerrainGenerator : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < height; i++)
-        {
-            float offset = i % 2 == 1 ? tileWidth / 2 : 0;
-            Tile[] mapPart = new Tile[width];
-
-            for (int j = 0; j < width; j++)
-            {
-                float widthRatio = ((j * 1.0f) / width) * perlinScale;
-                float heightRatio = ((i * 1.0f) / height) * perlinScale;
-                mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * 5, i * tileRadius * 0.75f));
-            }
-
-            map[i] = mapPart;
-        }
+        SetMap();
 
         for (int i = 0; i < height; i++)
         {
@@ -68,6 +72,25 @@ public class TerrainGenerator : MonoBehaviour
 
     void Update()
     {
+        SetMap();
+
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                tiles[i][j].transform.position = map[i][j].position;
+                int k = 0;
+                while (tiles[i][j].transform.position.y > thresholds[k].height && k < thresholds.Count)
+                {
+                    k++;
+                }
+                tiles[i][j].GetComponent<Renderer>().material = thresholds[k].color;
+            }
+        }
+    }
+
+    private void SetMap()
+    {
         for (int i = 0; i < height; i++)
         {
             float offset = i % 2 == 1 ? tileWidth / 2 : 0;
@@ -77,21 +100,13 @@ public class TerrainGenerator : MonoBehaviour
             {
                 float widthRatio = ((j * 1.0f) / width) * perlinScale;
                 float heightRatio = ((i * 1.0f) / height) * perlinScale;
-                mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * 5, i * tileRadius * 0.75f));
+                float heightScale = 11;
+                float heightOffset = -3;
+                mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * heightScale + heightOffset, i * tileRadius * 0.75f));
             }
 
             map[i] = mapPart;
         }
-
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                tiles[i][j].transform.position = map[i][j].position;
-            }
-        }
     }
-
-
 
 }
