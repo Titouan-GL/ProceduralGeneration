@@ -8,13 +8,45 @@ public class TerrainGenerator : MonoBehaviour
     public struct Tile
     {
         public Vector3 position;
-        public string type { get; set; }
-        public Tile(string newtype, Vector3 newposition)
+        public Biome biomeType;
+        public float closenessRatio;//how far is it from center ? 0 is on it, 0.5 makes it as close to the center than to another center
+        public Tile(Vector3 newposition, float newCloseness = 0, Biome newType = new Biome())
         {
-            type = newtype;
+            biomeType = newType;
             position = newposition;
+            closenessRatio = newCloseness;
         }
     }
+
+    public struct BiomeLocation
+    {
+        public Vector2Int position;
+        public Biome biomeType;
+        public int x;
+        public int y;
+        public BiomeLocation(Vector2Int newposition = new Vector2Int(), Biome newbiome = new Biome())
+        {
+            position = newposition;
+            biomeType = newbiome;
+            x = position.x;
+            y = position.y;
+        }
+    }
+
+    [Serializable]
+    public struct Biome
+    {
+        public string type;
+        public float offset;
+        public float scale;
+        public Biome(string newtype = "", float newoffset = 0, float newscale = 0)
+        {
+            type = newtype;
+            offset = newoffset; 
+            scale = newscale;
+        }
+    }
+
 
     [Serializable]
     public struct Threshold
@@ -35,7 +67,8 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] private int height;
     [SerializeField] private float perlinScale = 1f;
 
-    [SerializeField] private float tileWidth;
+    [SerializeField] private float tileWidth = 1;
+    [SerializeField] private int gridSize = 20;
 
     [SerializeField] private GameObject grassTile;
     [SerializeField] private GameObject mountainTile;
@@ -44,19 +77,30 @@ public class TerrainGenerator : MonoBehaviour
     private float tileRadius;
 
     private Tile[][] map;
+    private BiomeLocation[,] pointPositions;
 
     List<List<GameObject>> tiles = new List<List<GameObject>>();
 
     public List<Threshold> thresholds;
+    public List<Biome> biomes;
+
+    private int horizontalNumberOfPoints;
+    private int verticalNumberOfPoints;
 
     private void Awake()
     {
         tileRadius = tileWidth / Mathf.Cos(Mathf.Deg2Rad * 30); // a side is : "adjacent/cos(30)" and this times two gives the radius, and tileWidth/2 = adjacent
         map = new Tile[height][];
-    }
+
+
+        horizontalNumberOfPoints = width / gridSize;
+        verticalNumberOfPoints = height / gridSize;
+
+}
 
     void Start()
     {
+        GeneratePoints();
         SetMap();
 
         for (int i = 0; i < height; i++)
@@ -65,29 +109,19 @@ public class TerrainGenerator : MonoBehaviour
             for (int j = 0; j < width; j++)
             {
                 GameObject go = Instantiate(grassTile, map[i][j].position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+                go.name = "tile " + i + "_" + j;
                 tiles[i].Add(go);
-            }
-        }
-    }
-
-    void Update()
-    {
-        SetMap();
-
-        for (int i = 0; i < height; i++)
-        {
-            for (int j = 0; j < width; j++)
-            {
-                tiles[i][j].transform.position = map[i][j].position;
                 int k = 0;
-                while (tiles[i][j].transform.position.y > thresholds[k].height && k < thresholds.Count)
+                while (k < thresholds.Count-1 && go.transform.position.y > thresholds[k].height)
                 {
                     k++;
                 }
-                tiles[i][j].GetComponent<Renderer>().material = thresholds[k].color;
+                go.GetComponent<Renderer>().material = thresholds[k].color;
+
             }
         }
     }
+
 
     private void SetMap()
     {
@@ -98,14 +132,64 @@ public class TerrainGenerator : MonoBehaviour
 
             for (int j = 0; j < width; j++)
             {
+
+                float nearestDistance = Mathf.Infinity;
+                float secondNearestDistance = Mathf.Infinity;
+                BiomeLocation nearestPoint = new BiomeLocation();
+
+                for (int a = -1; a < 2; a++)
+                {
+                    for(int b = -1; b < 2; b++)
+                    {
+                        int gridX = i / gridSize;
+                        int gridY = j / gridSize;
+
+                        int X = gridX + a;
+                        int Y = gridY + b;
+                        if (!(X < 0 || Y < 0 || X >= horizontalNumberOfPoints || Y >= verticalNumberOfPoints))
+                        {
+                            float distance = Vector2Int.Distance(new Vector2Int(i, j), pointPositions[X, Y].position);
+                            if(distance < nearestDistance)
+                            {
+                                secondNearestDistance = nearestDistance;
+                                nearestDistance = distance;
+                                nearestPoint = pointPositions[X, Y];
+                            }
+                            else if(distance < secondNearestDistance)
+                            {
+                                secondNearestDistance = distance;
+                            }
+                        }
+                        
+                    }
+                }
+
                 float widthRatio = ((j * 1.0f) / width) * perlinScale;
                 float heightRatio = ((i * 1.0f) / height) * perlinScale;
-                float heightScale = 11;
-                float heightOffset = -3;
-                mapPart[j] = new Tile("grass", new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * heightScale + heightOffset, i * tileRadius * 0.75f));
+                float closenessRatio = 1- (nearestDistance / (nearestDistance + secondNearestDistance)) * 2;//how far is it from center ? from 0 to 1
+                float heightScale = nearestPoint.biomeType.scale * closenessRatio;
+                float heightOffset = nearestPoint.biomeType.offset * closenessRatio;
+                Debug.Log(i + " " + j + " " + closenessRatio+ " " +nearestDistance + " " + secondNearestDistance);
+
+                mapPart[j] = new Tile(
+                    new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * heightScale + heightOffset, i * tileRadius * 0.75f),
+                    closenessRatio, nearestPoint.biomeType);
             }
 
             map[i] = mapPart;
+        }
+    }
+
+    private void GeneratePoints()
+    {
+        pointPositions = new BiomeLocation[horizontalNumberOfPoints, verticalNumberOfPoints];
+        for (int i = 0; i<horizontalNumberOfPoints; i++)
+        {
+            for(int j  = 0; j < verticalNumberOfPoints; j++)
+            {
+                Biome type = biomes[UnityEngine.Random.Range(0, biomes.Count)];
+                pointPositions[i, j] = new BiomeLocation(new Vector2Int(i*gridSize + UnityEngine.Random.Range(0, gridSize-1), j *gridSize + UnityEngine.Random.Range(0, gridSize - 1)), type);
+            }
         }
     }
 

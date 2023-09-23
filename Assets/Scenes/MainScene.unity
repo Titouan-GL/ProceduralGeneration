@@ -223,8 +223,8 @@ Transform:
   m_GameObject: {fileID: 301276967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: 2.6, z: 21}
-  m_LocalScale: {x: 5.0126905, y: 4.3588614, z: 4.3588614}
+  m_LocalPosition: {x: 48.7, y: 2.6, z: 44.3}
+  m_LocalScale: {x: 16.310795, y: 14.183299, z: 14.183299}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -352,15 +352,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb43edc37edc7da498ab41b03973b8fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 50
-  height: 50
-  perlinScale: 10
+  width: 60
+  height: 60
+  perlinScale: 15.1
   tileWidth: 1
+  gridSize: 30
   grassTile: {fileID: 1847151029338149300, guid: 59ba42eea23f83a46a66b39e6f99da39, type: 3}
   mountainTile: {fileID: 919132149155446097, guid: 7695c6ca8f80a4746bba420d9aa6aeb2, type: 3}
   waterTile: {fileID: 919132149155446097, guid: 0e4ced23fd78e57439765ea579ac809a, type: 3}
   thresholds:
-  - height: 0
+  - height: -0.1
     type: Water
     color: {fileID: 2100000, guid: 6f4cc74d7411cb8499b00010c6de123e, type: 2}
   - height: 3
@@ -370,8 +371,21 @@ MonoBehaviour:
     type: Grass
     color: {fileID: 2100000, guid: 4c886afd95e568643b8b1c190b415774, type: 2}
   - height: 10
-    type: Mountain
+    type: Rock
     color: {fileID: 2100000, guid: c5ee3d5ead4886940b0af433319a0b96, type: 2}
+  biomes:
+  - type: ocean
+    offset: -5
+    scale: 5
+  - type: desert
+    offset: 0
+    scale: 3
+  - type: field
+    offset: 1
+    scale: 5
+  - type: mountain
+    offset: 3
+    scale: 8
 --- !u!4 &1399410508
 Transform:
   m_ObjectHideFlags: 0
