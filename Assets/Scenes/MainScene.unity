@@ -224,7 +224,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 48.7, y: 2.6, z: 44.3}
-  m_LocalScale: {x: 16.310795, y: 14.183299, z: 14.183299}
+  m_LocalScale: {x: 35.05353, y: 30.481329, z: 30.481329}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -352,19 +352,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb43edc37edc7da498ab41b03973b8fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 80
-  height: 80
-  perlinScale: 2.1
+  width: 160
+  height: 160
+  perlinScale: 15.1
   tileWidth: 1
   gridSize: 20
   grassTile: {fileID: 1847151029338149300, guid: 59ba42eea23f83a46a66b39e6f99da39, type: 3}
   mountainTile: {fileID: 919132149155446097, guid: 7695c6ca8f80a4746bba420d9aa6aeb2, type: 3}
   waterTile: {fileID: 919132149155446097, guid: 0e4ced23fd78e57439765ea579ac809a, type: 3}
+  biomeImportanceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0014839172
+      value: 1.0047302
+      inSlope: -0.4934861
+      outSlope: -0.4934861
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.29727757
+    - serializedVersion: 3
+      time: 0.1900741
+      value: 0.63379055
+      inSlope: -3.375343
+      outSlope: -3.375343
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.25005478
+    - serializedVersion: 3
+      time: 0.30215013
+      value: -0.0045216475
+      inSlope: -0.0029675423
+      outSlope: -0.0029675423
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.15929589
+    - serializedVersion: 3
+      time: 0.9837036
+      value: -0.002357483
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   thresholds:
   - height: -0.1
     type: Water
     color: {fileID: 2100000, guid: 6f4cc74d7411cb8499b00010c6de123e, type: 2}
-  - height: 3
+  - height: 2
     type: Sand
     color: {fileID: 2100000, guid: 31160dc22eefa284285fbe243fb0845e, type: 2}
   - height: 6
@@ -381,10 +423,10 @@ MonoBehaviour:
     offset: 0
     scale: 1
   - type: field
-    offset: 5
+    offset: 2
     scale: 4
   - type: mountain
-    offset: 10
+    offset: 5
     scale: 10
 --- !u!4 &1399410508
 Transform:
