@@ -134,31 +134,36 @@ public class TerrainGenerator : MonoBehaviour
             {
 
                 float nearestDistance = Mathf.Infinity;
-                float secondNearestDistance = Mathf.Infinity;
+                //float secondNearestDistance = Mathf.Infinity;
                 BiomeLocation nearestPoint = new BiomeLocation();
+                int gridX = i / gridSize;
+                int gridY = j / gridSize;
+                float totalDistance = 0;
+
+                List<BiomeLocation> surroudingBiomes = new List<BiomeLocation>();
 
                 for (int a = -1; a < 2; a++)
                 {
                     for(int b = -1; b < 2; b++)
                     {
-                        int gridX = i / gridSize;
-                        int gridY = j / gridSize;
 
                         int X = gridX + a;
                         int Y = gridY + b;
                         if (!(X < 0 || Y < 0 || X >= horizontalNumberOfPoints || Y >= verticalNumberOfPoints))
                         {
+                            surroudingBiomes.Add(pointPositions[X, Y]);
                             float distance = Vector2Int.Distance(new Vector2Int(i, j), pointPositions[X, Y].position);
+                            totalDistance += distance;
                             if(distance < nearestDistance)
                             {
-                                secondNearestDistance = nearestDistance;
+                                //secondNearestDistance = nearestDistance;
                                 nearestDistance = distance;
                                 nearestPoint = pointPositions[X, Y];
                             }
-                            else if(distance < secondNearestDistance)
+                            /*else if(distance < secondNearestDistance)
                             {
                                 secondNearestDistance = distance;
-                            }
+                            }*/
                         }
                         
                     }
@@ -166,14 +171,38 @@ public class TerrainGenerator : MonoBehaviour
 
                 float widthRatio = ((j * 1.0f) / width) * perlinScale;
                 float heightRatio = ((i * 1.0f) / height) * perlinScale;
-                float closenessRatio = 1- (nearestDistance / (nearestDistance + secondNearestDistance)) * 2;//how far is it from center ? from 0 to 1
-                float heightScale = nearestPoint.biomeType.scale * closenessRatio;
-                float heightOffset = nearestPoint.biomeType.offset * closenessRatio;
-                Debug.Log(i + " " + j + " " + closenessRatio+ " " +nearestDistance + " " + secondNearestDistance);
+                //float closenessRatio = 1- (nearestDistance / (nearestDistance + secondNearestDistance)) * 2;//how far is it from center ? from 0 to 1
+                //float heightScale = nearestPoint.biomeType.scale; * closenessRatio;
+                //float heightOffset = nearestPoint.biomeType.offset; * closenessRatio;
+                //Debug.Log(i + " " + j + " " + closenessRatio+ " " +nearestDistance + " " + secondNearestDistance);
 
+                float heightScale = 0;
+                float heightOffset = 0;
+                float totalRatioedDistance = 0;
+
+                foreach(BiomeLocation biome in surroudingBiomes)
+                {
+                    totalRatioedDistance += totalDistance / (Vector2Int.Distance(new Vector2Int(i, j), biome.position));
+                }
+
+                foreach (BiomeLocation biome in surroudingBiomes)
+                {
+                    if ((Vector2Int.Distance(new Vector2Int(i, j), biome.position)) != 0)
+                    {
+                        float ratio = (totalDistance / (Vector2Int.Distance(new Vector2Int(i, j), biome.position))) / totalRatioedDistance;
+                        heightScale += biome.biomeType.scale * ratio;
+                        heightOffset += biome.biomeType.offset * ratio;
+                    }
+                    else
+                    {
+                        heightScale = biome.biomeType.scale;
+                        heightOffset = biome.biomeType.offset;
+                    }
+                }
+                
                 mapPart[j] = new Tile(
                     new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * heightScale + heightOffset, i * tileRadius * 0.75f),
-                    closenessRatio, nearestPoint.biomeType);
+                    1f, nearestPoint.biomeType);
             }
 
             map[i] = mapPart;
