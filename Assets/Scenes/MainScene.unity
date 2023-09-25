@@ -223,7 +223,7 @@ Transform:
   m_GameObject: {fileID: 301276967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.7, y: 2.6, z: 44.3}
+  m_LocalPosition: {x: 48.7, y: 2.5, z: 44.3}
   m_LocalScale: {x: 35.05353, y: 30.481329, z: 30.481329}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -333,6 +333,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1399410508}
   - component: {fileID: 1399410507}
+  - component: {fileID: 1399410510}
+  - component: {fileID: 1399410509}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -352,14 +354,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb43edc37edc7da498ab41b03973b8fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 160
-  height: 160
-  perlinScale: 15.1
-  tileWidth: 1
-  gridSize: 20
+  width: 1
+  height: 1
+  perlinScale: 20.1
+  tileRadius: 2
   grassTile: {fileID: 1847151029338149300, guid: 59ba42eea23f83a46a66b39e6f99da39, type: 3}
   mountainTile: {fileID: 919132149155446097, guid: 7695c6ca8f80a4746bba420d9aa6aeb2, type: 3}
   waterTile: {fileID: 919132149155446097, guid: 0e4ced23fd78e57439765ea579ac809a, type: 3}
+  gridSize: 20
   biomeImportanceCurve:
     serializedVersion: 2
     m_Curve:
@@ -373,8 +375,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.29727757
     - serializedVersion: 3
-      time: 0.1900741
-      value: 0.63379055
+      time: 0.26128685
+      value: 0.63142544
       inSlope: -3.375343
       outSlope: -3.375343
       tangentMode: 0
@@ -382,8 +384,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.25005478
     - serializedVersion: 3
-      time: 0.30215013
-      value: -0.0045216475
+      time: 0.42974412
+      value: -0.006871501
       inSlope: -0.0029675423
       outSlope: -0.0029675423
       tangentMode: 0
@@ -406,19 +408,19 @@ MonoBehaviour:
   - height: -0.1
     type: Water
     color: {fileID: 2100000, guid: 6f4cc74d7411cb8499b00010c6de123e, type: 2}
-  - height: 2
+  - height: 1
     type: Sand
     color: {fileID: 2100000, guid: 31160dc22eefa284285fbe243fb0845e, type: 2}
-  - height: 6
+  - height: 7
     type: Grass
     color: {fileID: 2100000, guid: 4c886afd95e568643b8b1c190b415774, type: 2}
-  - height: 10
+  - height: 1000
     type: Rock
     color: {fileID: 2100000, guid: c5ee3d5ead4886940b0af433319a0b96, type: 2}
   biomes:
-  - type: ocean
-    offset: -10
-    scale: -5
+  - type: lake
+    offset: -5
+    scale: -8
   - type: desert
     offset: 0
     scale: 1
@@ -426,8 +428,8 @@ MonoBehaviour:
     offset: 2
     scale: 4
   - type: mountain
-    offset: 5
-    scale: 10
+    offset: 3
+    scale: 12
 --- !u!4 &1399410508
 Transform:
   m_ObjectHideFlags: 0
@@ -443,6 +445,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1399410509
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399410506}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1399410510
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399410506}
+  m_Mesh: {fileID: 0}
 --- !u!1 &2105482090
 GameObject:
   m_ObjectHideFlags: 0

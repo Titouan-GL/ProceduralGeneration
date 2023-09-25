@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter))]
 public class TerrainGenerator : MonoBehaviour
 {
     public struct Tile
@@ -62,50 +63,74 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-
+    //map
     [SerializeField] private int width;
     [SerializeField] private int height;
     [SerializeField] private float perlinScale = 1f;
 
-    [SerializeField] private float tileWidth = 1;
-    [SerializeField] private int gridSize = 20;
+    private Tile[][] map;
 
+    //tiles
+    [SerializeField] private float tileRadius = 2;
+    private float tileWidth;
     [SerializeField] private GameObject grassTile;
     [SerializeField] private GameObject mountainTile;
     [SerializeField] private GameObject waterTile;
 
-    [SerializeField] private AnimationCurve biomeImportanceCurve;
-
-    private float tileRadius;
-
-    private Tile[][] map;
-    private BiomeLocation[,] pointPositions;
-
     List<List<GameObject>> tiles = new List<List<GameObject>>();
 
+    //biomes
+    [SerializeField] private int gridSize = 20;
+    [SerializeField] private AnimationCurve biomeImportanceCurve;
+
+    private BiomeLocation[,] pointPositions;
     public List<Threshold> thresholds;
     public List<Biome> biomes;
-
     private int horizontalNumberOfPoints;
     private int verticalNumberOfPoints;
 
+    //mesh
+    private Mesh mesh;
+    private Vector3[] vertices;
+    private int[] triangles;
+
+    private Vector3[] meshPointsOffset;
+
     private void Awake()
     {
-        tileRadius = tileWidth / Mathf.Cos(Mathf.Deg2Rad * 30); // a side is : "adjacent/cos(30)" and this times two gives the radius, and tileWidth/2 = adjacent
+        tileWidth = tileRadius * Mathf.Cos(Mathf.Deg2Rad * 30); 
         map = new Tile[height][];
 
 
         horizontalNumberOfPoints = width / gridSize;
         verticalNumberOfPoints = height / gridSize;
 
-}
+        mesh = new Mesh();
+        //mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        GetComponent<MeshFilter>().mesh = mesh;
+
+        meshPointsOffset = new Vector3[]
+        {
+            new Vector3(0, 0, 0),
+            new Vector3(0, 0, tileRadius/2),
+            new Vector3(tileWidth/2, 0, tileRadius/4),
+            new Vector3(tileWidth/2, 0, -tileRadius/4),
+            new Vector3(0, 0, -tileRadius/2),
+            new Vector3(-tileWidth/2, 0, -tileRadius/4),
+            new Vector3(-tileWidth/2, 0, tileRadius/4)
+    };
+
+    }
 
     void Start()
     {
         GeneratePoints();
         SetMap();
+        createMesh();
+        updateMesh();
 
-        for (int i = 0; i < height; i++)
+
+        /*for (int i = 0; i < height; i++)
         {
             tiles.Add(new List<GameObject>());
             for (int j = 0; j < width; j++)
@@ -121,9 +146,101 @@ public class TerrainGenerator : MonoBehaviour
                 go.GetComponent<Renderer>().material = thresholds[k].color;
 
             }
+        }*/
+    }
+
+    void createMesh()
+    {
+        vertices = new Vector3[width * height * 7];
+        triangles = new int[width * height * 36];
+
+        for (int i = 0; i < height; i++)
+        {
+            tiles.Add(new List<GameObject>());
+            for (int j = 0; j < width; j++)
+            {
+                int indexV = 7 * (i * width + j);
+                int indexT = 36 * (i * width + j);
+
+                Vector3 pos = map[i][j].position;
+                for (int k = 0; k < 7; k++)
+                {
+                    vertices[indexV + k] = pos + meshPointsOffset[k];
+                }
+                triangles[indexT] = indexV;
+                triangles[indexT + 1] = indexV + 6;
+                triangles[indexT + 2] = indexV + 1;
+                for (int k = 0; k < 5; k++)
+                {
+                    triangles[indexT + k * 3 + 3] = indexV;
+                    triangles[indexT + k * 3 + 4] = indexV + k + 1;
+                    triangles[indexT + k * 3 + 5] = indexV + k + 2;
+                }
+
+                //doing the sides....
+                if(j > 0)
+                {
+                    triangles[indexT + 18] = indexV + 5;
+                    triangles[indexT + 19] = indexV - 4;
+                    triangles[indexT + 20] = indexV + 6;
+
+                    triangles[indexT + 21] = indexV - 4;
+                    triangles[indexT + 22] = indexV - 5;
+                    triangles[indexT + 23] = indexV + 6;
+                }
+                if(i < height-1 && i%2 == 0)
+                {
+                    triangles[indexT + 24] = indexV + 2;
+                    triangles[indexT + 25] = indexV + 1;
+                    triangles[indexT + 26] = indexV + 4 + 7 * width;
+
+                    triangles[indexT + 27] = indexV + 1;
+                    triangles[indexT + 28] = indexV + 5 + 7 * width;
+                    triangles[indexT + 29] = indexV + 4 + 7 * width;
+                    if(j > 0)
+                    {
+                        triangles[indexT + 30] = indexV + 1;
+                        triangles[indexT + 31] = indexV + 6;
+                        triangles[indexT + 32] = indexV + 3 + 7 * (width - 1);
+
+                        triangles[indexT + 33] = indexV + 6;
+                        triangles[indexT + 34] = indexV + 4 + 7 * (width - 1);
+                        triangles[indexT + 35] = indexV + 3 + 7 * (width - 1);
+                    }
+                }
+                else if(i < height-1 && i % 2 == 1)
+                {
+                    triangles[indexT + 24] = indexV + 1;
+                    triangles[indexT + 25] = indexV + 6;
+                    triangles[indexT + 26] = indexV + 3 + 7 * width;
+
+                    triangles[indexT + 27] = indexV + 6;
+                    triangles[indexT + 28] = indexV + 4 + 7 * width;
+                    triangles[indexT + 29] = indexV + 3 + 7 * width;
+                    if (j < width-1)
+                    {
+                        triangles[indexT + 30] = indexV + 2;
+                        triangles[indexT + 31] = indexV + 1;
+                        triangles[indexT + 32] = indexV + 4 + 7 * (width + 1);
+
+                        triangles[indexT + 33] = indexV + 1;
+                        triangles[indexT + 34] = indexV + 5 + 7 * (width + 1);
+                        triangles[indexT + 35] = indexV + 4 + 7 * (width + 1);
+                    }
+                }
+            }
         }
     }
 
+    void updateMesh()
+    {
+        mesh.Clear();
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+
+        mesh.RecalculateNormals();
+    }
 
     private void SetMap()
     {
@@ -136,7 +253,6 @@ public class TerrainGenerator : MonoBehaviour
             {
 
                 float nearestDistance = Mathf.Infinity;
-                //float secondNearestDistance = Mathf.Infinity;
                 BiomeLocation nearestPoint = new BiomeLocation();
                 int gridX = i / gridSize;
                 int gridY = j / gridSize;
