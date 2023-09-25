@@ -34,6 +34,19 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
+    public struct FakeTransform
+    {
+        public Vector3 position;
+        public Vector3 scale;
+        public Quaternion rotation;
+        public FakeTransform(Vector3 newposition, Quaternion newRotation, Vector3 newscale)
+        {
+            position = newposition;
+            scale = newscale; 
+            rotation = newRotation;
+        }
+    }
+
     [Serializable]
     public struct Biome
     {
@@ -71,7 +84,7 @@ public class TerrainGenerator : MonoBehaviour
     private Tile[][] map;
 
     //tiles
-    [SerializeField] private float tileRadius = 2;
+    [SerializeField] private float tileRadius = 1;
     private float tileWidth;
     [SerializeField] private GameObject grassTile;
     [SerializeField] private GameObject mountainTile;
@@ -89,7 +102,10 @@ public class TerrainGenerator : MonoBehaviour
     private int horizontalNumberOfPoints;
     private int verticalNumberOfPoints;
 
-    //mesh
+    //batch
+    [SerializeField] private Instancer[] instancers;
+
+    //mesh (deprecated)
     private Mesh mesh;
     private Vector3[] vertices;
     private int[] triangles;
@@ -98,7 +114,7 @@ public class TerrainGenerator : MonoBehaviour
 
     private void Awake()
     {
-        tileWidth = tileRadius * Mathf.Cos(Mathf.Deg2Rad * 30); 
+        tileWidth = tileRadius * Mathf.Cos(Mathf.Deg2Rad * 30);
         map = new Tile[height][];
 
 
@@ -106,7 +122,7 @@ public class TerrainGenerator : MonoBehaviour
         verticalNumberOfPoints = height / gridSize;
 
         mesh = new Mesh();
-        //mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         GetComponent<MeshFilter>().mesh = mesh;
 
         meshPointsOffset = new Vector3[]
@@ -126,8 +142,8 @@ public class TerrainGenerator : MonoBehaviour
     {
         GeneratePoints();
         SetMap();
-        createMesh();
-        updateMesh();
+        //createMesh();
+        //updateMesh();
 
 
         /*for (int i = 0; i < height; i++)
@@ -147,9 +163,32 @@ public class TerrainGenerator : MonoBehaviour
 
             }
         }*/
+        List<List<FakeTransform>> instanciatedTiles = new List<List<FakeTransform>>();
+        foreach (Threshold t in thresholds)
+        {
+            instanciatedTiles.Add(new List<FakeTransform>());
+        }
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                int k = 0;
+                while (k < thresholds.Count - 1 && map[i][j].position.y > thresholds[k].height)
+                {
+                    k++;
+                }
+                instanciatedTiles[k].Add(new FakeTransform(map[i][j].position, Quaternion.Euler(new Vector3(-90, 0, 0)), new Vector3(100, 100, 100)));
+
+            }
+        }
+        for(int i = 0; i < instanciatedTiles.Count; i++)
+        {
+            instancers[i].CreateBatch(instanciatedTiles[i]);
+        }
     }
 
-    void createMesh()
+
+    void createMesh()//deprecated, used to manually create the mesh
     {
         vertices = new Vector3[width * height * 7];
         triangles = new int[width * height * 36];
@@ -232,7 +271,7 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-    void updateMesh()
+    void updateMesh()//deprecated
     {
         mesh.Clear();
 
@@ -291,11 +330,8 @@ public class TerrainGenerator : MonoBehaviour
                     float distance = (Vector2Int.Distance(new Vector2Int(i, j), biome.position));
                     float ratio;
                     ratio = biomeImportanceCurve.Evaluate(distance/ 60);
-                    if(ratio > 0.1)
-                    {
-                        heightScale += biome.biomeType.scale * ratio;
-                        heightOffset += biome.biomeType.offset * ratio;
-                    }
+                    heightScale += biome.biomeType.scale * ratio;
+                    heightOffset += biome.biomeType.offset * ratio;
                 }
                 mapPart[j] = new Tile(
                     new Vector3(j * tileWidth + offset, Mathf.PerlinNoise(widthRatio, heightRatio) * heightScale + heightOffset, i * tileRadius * 0.75f),
@@ -318,5 +354,6 @@ public class TerrainGenerator : MonoBehaviour
             }
         }
     }
+
 
 }
