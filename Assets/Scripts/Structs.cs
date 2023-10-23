@@ -31,11 +31,9 @@ public class Structs
     public struct Decor
     {
         public Vector2Int position;
-        public DecorType decorType;
-        public Decor(DecorType type = DecorType.None, Vector2Int newposition = new Vector2Int())
+        public Decor(Vector2Int newposition = new Vector2Int())
         {
             position = newposition;
-            decorType = type;
         }
     }
 
@@ -57,17 +55,8 @@ public class Structs
     [Serializable]
     public struct DecorData
     {
-        public DecorType type;
         public Environment batcher;
         public Vector2 heightRange;
         public float probability;
-    }
-
-    [Serializable]
-    public enum DecorType
-    {
-        None,
-        Forest_Tree_1,
-        Forest_Tree_2
     }
 }

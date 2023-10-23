@@ -7,10 +7,8 @@ using static Structs;
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainGenerator : MonoBehaviour
 {
-    
-
-
     //map
+    [SerializeField] private string seed = "default";
     [SerializeField] private int width;
     [SerializeField] private int height;
     [SerializeField] private float perlinScale = 1f;
@@ -37,6 +35,7 @@ public class TerrainGenerator : MonoBehaviour
 
     private void Awake()
     {
+        UnityEngine.Random.InitState(seed.GetHashCode());
         tileWidth = tileRadius * Mathf.Cos(Mathf.Deg2Rad * 30);
 
 
@@ -149,8 +148,7 @@ public class TerrainGenerator : MonoBehaviour
                         decorValue -= dd.probability;
                         if (decorValue <= 0f)
                         {
-                            mapPart[j].decor = new Decor(dd.type);
-                            float size = UnityEngine.Random.Range(1.2f, 2f);
+                            float size = UnityEngine.Random.Range(80f, 120f);
                             dd.batcher.batchedTransform.Add(
                                 Matrix4x4.TRS(mapPart[j].position, Quaternion.Euler(new Vector3(-90, 0, UnityEngine.Random.Range(0, 360))), new Vector3(size, size, size)));
                         }
