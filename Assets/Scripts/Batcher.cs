@@ -1,14 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class Instancer : MonoBehaviour
+public class Batcher : MonoBehaviour
 {
+    new public string name;
 
     public Mesh instancedMesh;
 
     public Material[] materials;
+
+    public List<Matrix4x4> batchedTransform = new List<Matrix4x4>();
 
     private List<List<Matrix4x4>> batches = new List<List<Matrix4x4>>();
 
@@ -28,22 +29,22 @@ public class Instancer : MonoBehaviour
         RenderBatches();
     }
 
-    public void CreateBatch(List<TerrainGenerator.FakeTransform> tiles)
+    public void CreateBatch()
     {
         int addedMatrices = 0;
         batches.Add(new List<Matrix4x4>());
 
-        for (int i = 0;i < tiles.Count ;i++)
+        for (int i = 0; i < batchedTransform.Count; i++)
         {
-            if(addedMatrices < 1000)
+            if (addedMatrices < 1000)
             {
-                batches[batches.Count - 1].Add(Matrix4x4.TRS(tiles[i].position, tiles[i].rotation, tiles[i].scale));
+                batches[batches.Count - 1].Add(batchedTransform[i]);
                 addedMatrices++;
             }
             else
             {
                 batches.Add(new List<Matrix4x4>());
-                batches[batches.Count - 1].Add(Matrix4x4.TRS(tiles[i].position, tiles[i].rotation, tiles[i].scale));
+                batches[batches.Count - 1].Add(batchedTransform[i]);
                 addedMatrices = 0;
             }
         }

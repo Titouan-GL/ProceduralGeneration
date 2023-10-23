@@ -223,8 +223,8 @@ Transform:
   m_GameObject: {fileID: 301276967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 317.4, y: 4.9, z: 278}
-  m_LocalScale: {x: 247.06924, y: 214.84279, z: 214.84279}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 250, y: 250, z: 250}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -258,9 +258,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97bc7d5d7813c6549822637917f05f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instancedMesh: {fileID: 2534964839176971238, guid: 4233f4b3234ec6046b857d66304b40a6, type: 3}
+  name: 
+  instancedMesh: {fileID: 4300000, guid: 65f70caa54a110f46877386c2f869da8, type: 2}
   materials:
   - {fileID: 2100000, guid: 31160dc22eefa284285fbe243fb0845e, type: 2}
+  batchedTransform: []
+  height: 1
 --- !u!4 &569956975
 Transform:
   m_ObjectHideFlags: 0
@@ -269,12 +272,112 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569956973}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -241.082, y: -17.526823, z: -79.92685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1795906089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &868068861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 868068863}
+  - component: {fileID: 868068862}
+  m_Layer: 0
+  m_Name: InstanciateIceTiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &868068862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868068861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bc7d5d7813c6549822637917f05f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  instancedMesh: {fileID: 4300000, guid: 65f70caa54a110f46877386c2f869da8, type: 2}
+  materials:
+  - {fileID: 2100000, guid: 6779273311c8c5f418818239a7742861, type: 2}
+  batchedTransform: []
+  height: 1000
+--- !u!4 &868068863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868068861}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -241.082, y: -17.526823, z: -79.92685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1795906089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1138041435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1138041437}
+  - component: {fileID: 1138041436}
+  m_Layer: 0
+  m_Name: B_ForestTrees1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1138041436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138041435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ef93e3c8169384cb3df32d89fcd1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  instancedMesh: {fileID: 4300000, guid: 2e801eaa858089e4d882b265d7c55cfa, type: 2}
+  materials:
+  - {fileID: 2100000, guid: 4c886afd95e568643b8b1c190b415774, type: 2}
+  - {fileID: 2100000, guid: af3dd97e4525c3541afcf7acee9ef2ae, type: 2}
+  batchedTransform: []
+--- !u!4 &1138041437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138041435}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2027344814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1275220236
 GameObject:
@@ -405,9 +508,6 @@ MonoBehaviour:
   height: 400
   perlinScale: 40.1
   tileRadius: 2
-  grassTile: {fileID: 1281249472018732926, guid: c61e29f4a5d57b641ae6b8a8acd5ae82, type: 3}
-  mountainTile: {fileID: 1281249472018732926, guid: c61e29f4a5d57b641ae6b8a8acd5ae82, type: 3}
-  waterTile: {fileID: 1281249472018732926, guid: c61e29f4a5d57b641ae6b8a8acd5ae82, type: 3}
   gridSize: 40
   biomeImportanceCurve:
     serializedVersion: 2
@@ -451,37 +551,89 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  thresholds:
-  - height: -0.1
-    type: Water
-    color: {fileID: 2100000, guid: 6f4cc74d7411cb8499b00010c6de123e, type: 2}
-  - height: 1
-    type: Sand
-    color: {fileID: 2100000, guid: 31160dc22eefa284285fbe243fb0845e, type: 2}
-  - height: 7
-    type: Grass
-    color: {fileID: 2100000, guid: 4c886afd95e568643b8b1c190b415774, type: 2}
-  - height: 1000
-    type: Rock
-    color: {fileID: 2100000, guid: c5ee3d5ead4886940b0af433319a0b96, type: 2}
   biomes:
-  - type: lake
+  - name: Ocean
     offset: -10
-    scale: -3
-  - type: desert
-    offset: 0
-    scale: 1
-  - type: field
+    scale: 3
+    probabilityStrength: 15
+    thresholds:
+    - batcher: {fileID: 1555240565}
+      height: -10
+    - batcher: {fileID: 1669209378}
+      height: -0.1
+    - batcher: {fileID: 569956974}
+      height: 5
+    - batcher: {fileID: 1811915958}
+      height: 10
+    - batcher: {fileID: 1459544680}
+      height: 25
+    - batcher: {fileID: 868068862}
+      height: 1000
+    decors: []
+  - name: Plain
     offset: 2
-    scale: 4
-  - type: mountain
+    scale: 3
+    probabilityStrength: 8
+    thresholds:
+    - batcher: {fileID: 1555240565}
+      height: -10
+    - batcher: {fileID: 1669209378}
+      height: -0.1
+    - batcher: {fileID: 1811915958}
+      height: 12
+    - batcher: {fileID: 1459544680}
+      height: 25
+    - batcher: {fileID: 868068862}
+      height: 1000
+    decors:
+    - type: 1
+      batcher: {fileID: 1138041436}
+      heightRange: {x: 1, y: 5}
+      probability: 0.05
+  - name: Forest
     offset: 3
+    scale: 5
+    probabilityStrength: 10
+    thresholds:
+    - batcher: {fileID: 1555240565}
+      height: -10
+    - batcher: {fileID: 1669209378}
+      height: -0.1
+    - batcher: {fileID: 569956974}
+      height: 1
+    - batcher: {fileID: 1811915958}
+      height: 20
+    - batcher: {fileID: 1459544680}
+      height: 25
+    - batcher: {fileID: 868068862}
+      height: 1000
+    decors:
+    - type: 1
+      batcher: {fileID: 1138041436}
+      heightRange: {x: 1, y: 15}
+      probability: 0.5
+  - name: Mountain
+    offset: 10
     scale: 20
-  instancers:
-  - {fileID: 1669209378}
-  - {fileID: 569956974}
-  - {fileID: 1811915958}
-  - {fileID: 1459544680}
+    probabilityStrength: 5
+    thresholds:
+    - batcher: {fileID: 1555240565}
+      height: -10
+    - batcher: {fileID: 1669209378}
+      height: -0.1
+    - batcher: {fileID: 569956974}
+      height: 1
+    - batcher: {fileID: 1811915958}
+      height: 7
+    - batcher: {fileID: 1459544680}
+      height: 25
+    - batcher: {fileID: 868068862}
+      height: 1000
+    decors:
+    - type: 1
+      batcher: {fileID: 1138041436}
+      heightRange: {x: 1, y: 10}
+      probability: 0
 --- !u!4 &1399410508
 Transform:
   m_ObjectHideFlags: 0
@@ -576,9 +728,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97bc7d5d7813c6549822637917f05f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instancedMesh: {fileID: 2534964839176971238, guid: 4233f4b3234ec6046b857d66304b40a6, type: 3}
+  name: 
+  instancedMesh: {fileID: 4300000, guid: 65f70caa54a110f46877386c2f869da8, type: 2}
   materials:
   - {fileID: 2100000, guid: c5ee3d5ead4886940b0af433319a0b96, type: 2}
+  batchedTransform: []
+  height: 25
 --- !u!4 &1459544681
 Transform:
   m_ObjectHideFlags: 0
@@ -587,12 +742,62 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459544679}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -241.082, y: -17.526823, z: -79.92685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1795906089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1555240564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1555240566}
+  - component: {fileID: 1555240565}
+  m_Layer: 0
+  m_Name: InstanciateDeepWater Tiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1555240565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555240564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bc7d5d7813c6549822637917f05f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  instancedMesh: {fileID: 4300000, guid: 65f70caa54a110f46877386c2f869da8, type: 2}
+  materials:
+  - {fileID: 2100000, guid: 8aabcb5f6b69bfb438cbaab8182e692a, type: 2}
+  batchedTransform: []
+  height: -10
+--- !u!4 &1555240566
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555240564}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -241.082, y: -17.526823, z: -79.92685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1795906089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1669209377
 GameObject:
@@ -623,9 +828,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97bc7d5d7813c6549822637917f05f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instancedMesh: {fileID: 2534964839176971238, guid: 4233f4b3234ec6046b857d66304b40a6, type: 3}
+  name: 
+  instancedMesh: {fileID: 4300000, guid: 65f70caa54a110f46877386c2f869da8, type: 2}
   materials:
   - {fileID: 2100000, guid: 6f4cc74d7411cb8499b00010c6de123e, type: 2}
+  batchedTransform: []
+  height: -0.1
 --- !u!4 &1669209379
 Transform:
   m_ObjectHideFlags: 0
@@ -634,11 +842,48 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669209377}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -241.082, y: -17.526823, z: -79.92685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
+  m_Father: {fileID: 1795906089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1795906088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1795906089}
+  m_Layer: 0
+  m_Name: TilesBatches
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1795906089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795906088}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 241.082, y: 17.526823, z: 79.92685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1555240566}
+  - {fileID: 1669209379}
+  - {fileID: 569956975}
+  - {fileID: 1811915959}
+  - {fileID: 1459544681}
+  - {fileID: 868068863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1811915957
@@ -670,9 +915,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97bc7d5d7813c6549822637917f05f99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instancedMesh: {fileID: 2534964839176971238, guid: 4233f4b3234ec6046b857d66304b40a6, type: 3}
+  name: 
+  instancedMesh: {fileID: 4300000, guid: 65f70caa54a110f46877386c2f869da8, type: 2}
   materials:
   - {fileID: 2100000, guid: 4c886afd95e568643b8b1c190b415774, type: 2}
+  batchedTransform: []
+  height: 10
 --- !u!4 &1811915959
 Transform:
   m_ObjectHideFlags: 0
@@ -681,11 +929,43 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1811915957}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -241.082, y: -17.526823, z: -79.92685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
+  m_Father: {fileID: 1795906089}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2027344813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2027344814}
+  m_Layer: 0
+  m_Name: DecorBatchers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2027344814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027344813}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 465.89865, y: -10.016342, z: 288.29498}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1138041437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2105482090
@@ -788,7 +1068,5 @@ SceneRoots:
   - {fileID: 1275220238}
   - {fileID: 1399410508}
   - {fileID: 301276971}
-  - {fileID: 1811915959}
-  - {fileID: 1669209379}
-  - {fileID: 1459544681}
-  - {fileID: 569956975}
+  - {fileID: 2027344814}
+  - {fileID: 1795906089}
